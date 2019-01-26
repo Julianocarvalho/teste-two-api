@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Api::V1::TasksController do
   let!(:project) { create(:project)}  
-  let(:project_id) { project.id }
+  let!(:project_id) { project.id }
   let(:headers) do
     {
       'Content-Type' => Mime[:json].to_s,
@@ -23,7 +23,7 @@ RSpec.describe Api::V1::TasksController do
     end
 
     it 'returns the json for task' do
-      expect(json_body).to be_truthy
+      expect(json_body).not_to be_nil
     end
 
   end
@@ -41,5 +41,34 @@ RSpec.describe Api::V1::TasksController do
       expect(json_body[:title]).to eq(task.title)
     end 
   end
+
+  describe 'POST /tasks' do
+    let!(:task) {create(:task, project_id: project_id)}
+
+    before do
+      post '/tasks', params: {task: task_params}.to_json, headers: headers
+    end
+
+    context 'when the params are valid' do
+      let!(:task_params) {attributes_for(:task)}
+
+      it 'returns status code 201'do
+      expect(response).to have_http_status(201)
+      end
+
+    it 'saves the task in the database' do
+      expect(Task.find_by(title: task_params[:title])).not_to be_nil
+    end
+
+    it 'reuturns the json for created task' do
+      expect(json_body[:title]).to eq(task_params[:title])
+    end
+
+    it 'assigns the created task to the current project' do
+      expect(json_body[:project_id]).to eq(project_id)
+    end
+
+  end
+end
 
 end

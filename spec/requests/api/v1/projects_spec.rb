@@ -12,7 +12,23 @@ RSpec.describe 'Projects API', type: :request do
 
   before { host! "api.teste-two.test"}
 
-  describe "GET /Projects/:id" do
+
+  describe 'GET /projects' do
+    let!(:project) {create(:project)}
+
+    before { get "/projects", params: {}, headers: headers}
+
+    it 'returns status code 200' do
+      expect(response).to have_http_status(200)
+    end
+
+    it 'returns the json for projects' do
+      expect(json_body).to be_truthy
+    end
+
+  end
+
+  describe "GET /projects/:id" do
     before do
       get "/projects/#{project_id}", params: {}, headers: headers
     end
@@ -71,7 +87,7 @@ RSpec.describe 'Projects API', type: :request do
         end
         it 'returns the json data for the update project ' do
 
-        expect(json_body[:name]).to eq(project_params[:name])
+          expect(json_body[:name]).to eq(project_params[:name])
 
         end
       end
@@ -82,7 +98,7 @@ RSpec.describe 'Projects API', type: :request do
           expect(response).to have_http_status(422)
         end
         it 'returns the json data for the erros' do
-              expect(json_body).to have_key(:errors)
+          expect(json_body).to have_key(:errors)
         end
       end
     end

@@ -1,6 +1,13 @@
 class Api::V1::ProjectsController < ApplicationController
 	respond_to :json
 
+
+	def index
+
+			project = Project.all
+			render json: project
+	end
+
 	def show
 		begin
 			@project = Project.find(params[:id])
@@ -12,7 +19,6 @@ class Api::V1::ProjectsController < ApplicationController
 
 	def create
 		project = Project.new(project_params)
-
 		if project.save
 			render json: project, status: 201
 		else
@@ -35,6 +41,7 @@ class Api::V1::ProjectsController < ApplicationController
 		project.destroy
 		head 204
 	end
+	
 	private
 	def project_params
 		params.require(:project).permit(:name, :description)

@@ -3,8 +3,8 @@ class Api::V1::TasksController < ApplicationController
 
 	def index
 
-			task = Task.all
-			render json: task
+		task = Task.all
+		render json: task
 	end
 
 	def show
@@ -18,7 +18,6 @@ class Api::V1::TasksController < ApplicationController
 
 	def create
 		task = Task.new(task_params)
-
 		if task.save
 			render json: task, status: 201
 		else
@@ -27,14 +26,23 @@ class Api::V1::TasksController < ApplicationController
 
 	end
 
-	def tasks_by_project_id
-		tasks_by_project = Task.where(project_id: params[:project_id])
+	def update
+		task = Task.find(params[:id])
+		if task.update(task_params)
+			render json: task, status: 200
+		else
+			render json: { errors: task.errors }, status: 422
+		end
+	end
 
-		respond_with tasks_by_project
+	def destroy
+		task = Task.find(params[:id])
+		task.destroy
+		head 204
 	end
 
 	private
 	def task_params
-		params.require(:task).permit(:title, :description)
+		params.require(:task).permit(:title, :description, :project_id, :started_date, :closed_date)
 	end
 end
