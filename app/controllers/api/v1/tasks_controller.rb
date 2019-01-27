@@ -1,11 +1,6 @@
 class Api::V1::TasksController < ApplicationController
 	respond_to :json
 
-	def index
-
-		task = Task.all
-		render json: task
-	end
 
 	def show
 		begin
@@ -29,6 +24,7 @@ class Api::V1::TasksController < ApplicationController
 	def update
 		task = Task.find(params[:id])
 		if task.update(task_params)
+			task.reload
 			render json: task, status: 200
 		else
 			render json: { errors: task.errors }, status: 422
