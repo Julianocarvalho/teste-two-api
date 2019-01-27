@@ -15,6 +15,7 @@ class Api::V1::ProjectsController < ApplicationController
 	def show
 		begin
 			project = Project.find(params[:id])
+			project.elapsed_time_total
 			render json: project#, methods: :elapsed_time_total
 		rescue
 			head 404
