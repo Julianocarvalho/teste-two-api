@@ -1,6 +1,10 @@
 class Api::V1::ProjectsController < ApplicationController
 	respond_to :json
 
+	def tasks_by_project
+		project = Project.find(params[:id])
+		render json: project.tasks
+	end
 
 	def index
 
@@ -10,8 +14,8 @@ class Api::V1::ProjectsController < ApplicationController
 
 	def show
 		begin
-			@project = Project.find(params[:id])
-			respond_with @project
+			project = Project.find(params[:id])
+			render json: project#, methods: :elapsed_time_total
 		rescue
 			head 404
 		end
