@@ -4,7 +4,6 @@ FactoryBot.define do
 		description {Faker::Lorem.paragraph}
 		started_date {Faker::Date.between(Date.today, 1.day.from_now)}
 		closed_date {Faker::Date.between(2.day.from_now, 3.day.from_now)}
-		elapsed_time "0"
 		project 
 	end
 end

@@ -14,4 +14,10 @@ RSpec.describe Task, type: :model do
 	it {is_expected.to respond_to(:closed_date)}
 	it {is_expected.to respond_to(:elapsed_time)}
 	it {is_expected.to respond_to(:project_id)}
+
+	it {is_expected.to allow_value("testing title").for(:title)}
+	it {is_expected.to allow_value("testing description").for(:description)}
+	it {is_expected.to allow_value(10).for(:elapsed_time)}
+	it {is_expected.to allow_value(Date.today).for(:started_date)}
+	it {is_expected.to allow_value(Date.today).for(:closed_date)}
 end

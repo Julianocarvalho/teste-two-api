@@ -5,9 +5,9 @@ Rails.application.routes.draw do
   namespace :api , defaults: {format: :json}, constraints: {subdomain: 'api'}, path: "/" do
   	namespace :v1 , path: '/', constraints: ApiVersionConstraint.new(version: 1, default: true) do
   		resources :users, only: [:show, :create, :update, :destroy]
-  		resources :projects, only: [:index, :show, :create, :update, :destroy]
+  		resources :projects, only: [:index, :show, :create, :update, :destroy] 
   		resources :tasks, only: [:show, :create, :update, :destroy]
-  		match 'project/:id/tasks' => 'projects#tasks_by_project', via: :get
+  		match 'projects/:id/tasks' => 'projects#tasks_by_project', via: :get
   	end
   end
 

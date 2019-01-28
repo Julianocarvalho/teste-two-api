@@ -102,6 +102,8 @@ RSpec.describe 'Projects API', type: :request do
         end
       end
     end
+
+    
     describe 'DELETE /projects/:id' do
       before do
         delete "/projects/#{project_id}", params: {}, headers: headers
