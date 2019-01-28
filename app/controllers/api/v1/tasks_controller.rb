@@ -13,12 +13,13 @@ class Api::V1::TasksController < ApplicationController
 
 	def create
 		task = Task.new(task_params)
+
 		if task.save
 			render json: task, status: 201
 		else
 			render json: { errors: task.errors }, status: 422
 		end
-
+		
 	end
 
 	def update
